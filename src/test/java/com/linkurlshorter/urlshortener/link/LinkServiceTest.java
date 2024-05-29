@@ -3,7 +3,6 @@ package com.linkurlshorter.urlshortener.link;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.linkurlshorter.urlshortener.link.dto.LinkStatisticsDto;
-import com.linkurlshorter.urlshortener.link.exception.DeletedLinkException;
 import com.linkurlshorter.urlshortener.link.exception.InactiveLinkException;
 import com.linkurlshorter.urlshortener.link.exception.NoLinkFoundByShortLinkException;
 import com.linkurlshorter.urlshortener.link.exception.NullLinkPropertyException;
@@ -123,15 +122,6 @@ class LinkServiceTest {
                 .isInstanceOf(NullLinkPropertyException.class);
     }
 
-    /**
-     * Test case for the {@link LinkService#update(Link)} method when the provided link is deleted.
-     */
-    @Test
-    void updateDeletedLinkTest() {
-        link.setStatus(LinkStatus.DELETED);
-        assertThatThrownBy(() -> linkService.update(link))
-                .isInstanceOf(DeletedLinkException.class);
-    }
 
     /**
      * Test case for the {@link LinkService#updateRedisShortLink(String, String)} method.
@@ -241,17 +231,7 @@ class LinkServiceTest {
                 .isInstanceOf(NoLinkFoundByShortLinkException.class);
     }
 
-    /**
-     * Test case for the {@link LinkService#findByShortLink(String)} method when the
-     * provided short link is deleted.
-     */
-    @Test
-    void findByShortLinkDeletedTest() {
-        when(linkRepository.findByShortLink(link.getShortLink())).thenReturn(Optional.of(link));
-        link.setStatus(LinkStatus.DELETED);
-        assertThatThrownBy(() -> linkService.findByShortLink(link.getShortLink()))
-                .isInstanceOf(DeletedLinkException.class);
-    }
+
 
     /**
      * Test case for the {@link LinkService#findAllByUserId(UUID)} method.
@@ -317,7 +297,8 @@ class LinkServiceTest {
         when(jedisPool.getResource()).thenReturn(jedis);
         when(linkRepository.findByShortLink(link.getShortLink())).thenReturn(Optional.of(link));
         linkService.deleteByShortLink(link.getShortLink());
-        assertThat(LinkStatus.DELETED).isEqualTo(link.getStatus());
+        verify(linkRepository, times(1)).findByShortLink(link.getShortLink());
+        verify(linkRepository, times(1)).delete(link);
     }
 
     /**
