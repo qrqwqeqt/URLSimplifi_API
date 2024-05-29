@@ -78,7 +78,7 @@ class LinkControllerTest {
                 .shortLink("shortLink1")
                 .user(user)
                 .createdTime(LocalDateTime.of(2024, 4, 13, 10, 0))
-                .expirationTime(LocalDateTime.of(2024, 5, 16, 8, 0))
+                .expirationTime(LocalDateTime.of(2025, 5, 16, 8, 0))
                 .statistics(100)
                 .status(LinkStatus.ACTIVE)
                 .build();
@@ -205,7 +205,7 @@ class LinkControllerTest {
     }
 
     /**
-     * Test case for the {@link LinkController#editLinkContent(EditLinkContentRequest)} method.
+     * Test case for the {@link LinkController#editLinkContent(String, EditLinkContentRequest)} method.
      */
     @Test
     @WithMockUser
@@ -213,10 +213,11 @@ class LinkControllerTest {
         when(userService.findByEmail(any())).thenReturn(user);
         when(linkService.findByShortLink(link.getShortLink())).thenReturn(link);
 
-        EditLinkContentRequest request = new EditLinkContentRequest(link.getShortLink(), "shortLink2");
-        when(linkService.update(link)).thenReturn(link);
+        EditLinkContentRequest request = new EditLinkContentRequest("shortLink2");
+        when(linkService.save(link)).thenReturn(link);
 
         ResultActions resultActions = mockMvc.perform(post("/api/V1/link/edit/content")
+                .param("shortLink", link.getShortLink())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)));
 
@@ -225,7 +226,7 @@ class LinkControllerTest {
     }
 
     /**
-     * Test case for the {@link LinkController#editLinkContent(EditLinkContentRequest)} method when
+     * Test case for the {@link LinkController#editLinkContent(String, EditLinkContentRequest)} method when
      * the authenticated user does not have rights.
      */
     @Test
@@ -240,10 +241,11 @@ class LinkControllerTest {
         when(userService.findByEmail(any())).thenReturn(newUser);
         when(linkService.findByShortLink(link.getShortLink())).thenReturn(link);
 
-        EditLinkContentRequest request = new EditLinkContentRequest(link.getShortLink(), "shortLink2");
-        when(linkService.update(link)).thenReturn(link);
+        EditLinkContentRequest request = new EditLinkContentRequest("shortLink2");
+        when(linkService.save(link)).thenReturn(link);
 
         ResultActions resultActions = mockMvc.perform(post("/api/V1/link/edit/content")
+                .param("shortLink", link.getShortLink())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)));
 
@@ -258,7 +260,7 @@ class LinkControllerTest {
     void refreshLinkTest() throws Exception {
         when(userService.findByEmail(any())).thenReturn(user);
         when(linkService.findByShortLink(link.getShortLink())).thenReturn(link);
-        when(linkService.update(link)).thenReturn(link);
+        when(linkService.save(link)).thenReturn(link);
 
         ResultActions resultActions = mockMvc.perform(post("/api/V1/link/edit/refresh")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -283,7 +285,7 @@ class LinkControllerTest {
                 .build();
         when(userService.findByEmail(any())).thenReturn(newUser);
         when(linkService.findByShortLink(link.getShortLink())).thenReturn(link);
-        when(linkService.update(link)).thenReturn(link);
+        when(linkService.save(link)).thenReturn(link);
 
         ResultActions resultActions = mockMvc.perform(post("/api/V1/link/edit/refresh")
                 .contentType(MediaType.APPLICATION_JSON)
