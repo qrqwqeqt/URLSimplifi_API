@@ -2,12 +2,15 @@ package com.linkurlshorter.urlshortener.auth;
 
 import com.linkurlshorter.urlshortener.auth.dto.AuthRequest;
 import com.linkurlshorter.urlshortener.auth.exception.EmailAlreadyTakenException;
+import com.linkurlshorter.urlshortener.auth.exception.WrongEmailOrPasswordException;
 import com.linkurlshorter.urlshortener.jwt.JwtUtil;
+import com.linkurlshorter.urlshortener.security.CustomUserDetailsService;
 import com.linkurlshorter.urlshortener.user.model.User;
 import com.linkurlshorter.urlshortener.user.UserRepository;
 import com.linkurlshorter.urlshortener.user.model.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +35,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CustomUserDetailsService customUserDetailsService;
 
     /**
      * Authenticates a user and generates a JWT token.
@@ -40,11 +44,15 @@ public class AuthService {
      * @return the JWT token generated for the authenticated user
      */
     public String loginUser(AuthRequest authRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authRequest.getEmail(), authRequest.getPassword()));
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            authRequest.getEmail(), authRequest.getPassword()));
 
-        return jwtUtil.generateToken(authentication);
+            return jwtUtil.generateToken(authentication);
+        } catch (BadCredentialsException e) {
+            throw new WrongEmailOrPasswordException();
+        }
     }
 
     /**

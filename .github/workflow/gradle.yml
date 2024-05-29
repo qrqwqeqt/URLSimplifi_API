@@ -1,4 +1,4 @@
-name: Build Java app
+name: Java CI with Gradle
 
 on:
   push:
