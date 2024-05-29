@@ -7,10 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller class for handling user authentication and registration endpoints.
@@ -23,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @see com.linkurlshorter.urlshortener.auth.AuthService
  */
 @RestController
+@CrossOrigin
 @RequiredArgsConstructor
 @Tag(name = "Auth", description = "The Auth API")
 @RequestMapping("/api/V1/auth")
