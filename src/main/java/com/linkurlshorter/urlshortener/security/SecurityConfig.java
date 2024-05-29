@@ -56,6 +56,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/V1/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/V1/user/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/*").permitAll()
+                        .requestMatchers("/api/V1/link/all-links").permitAll()
                         .requestMatchers("/api/V1/link/**").authenticated()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .anyRequest().denyAll()

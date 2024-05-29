@@ -39,7 +39,7 @@ public interface LinkRepository extends JpaRepository<Link, UUID> {
      * @param userId The ID of the user whose links are to be retrieved.
      * @return A list of Link objects associated with the specified user ID, excluding links with a status of 'DELETED'.
      */
-    @Query("SELECT l from Link l WHERE l.user.id = :userId AND l.status <> 'DELETED'")
+    @Query("SELECT l from Link l WHERE l.user.id = :userId")
     List<Link> findAllByUserId(@Param(value = "userId") UUID userId);
 
     /**
@@ -54,6 +54,9 @@ public interface LinkRepository extends JpaRepository<Link, UUID> {
     @Query("SELECT l FROM Link l WHERE l.user.id = :userId AND l.status = 'ACTIVE'")
     List<Link> findAllActiveByUserId(@Param("userId") UUID userId);
 
+    @Query("SELECT l FROM Link l WHERE l.status = 'ACTIVE'")
+    List<Link> findAllActive();
+
     /**
      * Retrieves a list of link usage statistics for a specific user.
      *
@@ -65,7 +68,7 @@ public interface LinkRepository extends JpaRepository<Link, UUID> {
      * @return A list of LinkStatisticsDto objects containing link usage statistics for the specified user.
      */
     @Query("SELECT new com.linkurlshorter.urlshortener.link.dto.LinkStatisticsDto(l.id, l.shortLink, l.statistics)" +
-            " FROM Link l WHERE l.user.id = :userId AND l.status <> 'DELETED'")
+            " FROM Link l WHERE l.user.id = :userId")
     List<LinkStatisticsDto> getLinkUsageStatsForUser(@Param(value = "userId") UUID userId);
 
     /**

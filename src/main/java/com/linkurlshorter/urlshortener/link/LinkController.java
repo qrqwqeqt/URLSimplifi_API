@@ -215,6 +215,8 @@ public class LinkController {
      * @return A list of active LinkDto objects associated with the currently authenticated user.
      */
     @GetMapping("/active-links")
+    @SecurityRequirement(name = "JWT")
+    @Operation(summary = "Get all User's active links")
     public List<LinkInfoDto> getOnlyActiveLinks(){
         UUID userId = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
         return linkService
@@ -239,6 +241,16 @@ public class LinkController {
         List<LinkStatisticsDto> stats = linkService.getLinkUsageStatsByUserId(requesterUser.getId());
         stats.sort(Comparator.comparing(LinkStatisticsDto::getUsageStatistics).reversed());
         return ResponseEntity.ok(new LinkStatisticsResponse(stats, "ok"));
+    }
+
+    @GetMapping("/all-links")
+    @Operation(summary = "Get all links")
+    public ResponseEntity<LinkInfoResponse> getAllLinks() {
+        List<LinkInfoDto> links = linkService.findAllActive()
+                .stream()
+                .map(linkDtoMapper::mapLinkToDto)
+                .toList();
+        return ResponseEntity.ok(new LinkInfoResponse(links, "ok"));
     }
 
     /**
