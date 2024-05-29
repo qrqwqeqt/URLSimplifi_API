@@ -251,29 +251,6 @@ class LinkControllerTest {
     }
 
     /**
-     * Test case for the {@link LinkController#editLinkContent(EditLinkContentRequest)} method when
-     * the status of the link is not ACTIVE.
-     */
-    @Test
-    @WithMockUser
-    void editDeletedLinkContentTest() throws Exception {
-        link.setStatus(LinkStatus.DELETED);
-        when(userService.findByEmail(any())).thenReturn(user);
-        when(linkService.findByShortLink(link.getShortLink())).thenReturn(link);
-
-        EditLinkContentRequest request = new EditLinkContentRequest(link.getShortLink(), "shortLink2");
-        when(linkService.update(link)).thenReturn(link);
-
-        ResultActions resultActions = mockMvc.perform(post("/api/V1/link/edit/content")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)));
-
-        resultActions.andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Link status is invalid for the operation"))
-                .andExpect(jsonPath("$.path").value("/api/V1/link/edit/content"));
-    }
-
-    /**
      * Test case for the {@link LinkController#refreshLink(String)} method.
      */
     @Test
@@ -315,27 +292,6 @@ class LinkControllerTest {
         resultActions.andExpect(status().isForbidden());
     }
 
-    /**
-     * Test case for the {@link LinkController#refreshLink(String)} method when
-     * the status of the link is not ACTIVE.
-     */
-    @Test
-    @WithMockUser
-    void refreshDeletedLinkTest() throws Exception {
-        link.setStatus(LinkStatus.DELETED);
-        when(userService.findByEmail(any())).thenReturn(user);
-        when(linkService.findByShortLink(link.getShortLink())).thenReturn(link);
-        when(linkService.update(link)).thenReturn(link);
-
-        ResultActions resultActions = mockMvc.perform(post("/api/V1/link/edit/refresh")
-                .contentType(MediaType.APPLICATION_JSON)
-                .param("shortLink", String.valueOf(link.getShortLink())));
-
-        resultActions.andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("The link has already been deleted, " +
-                        "no operations are allowed"))
-                .andExpect(jsonPath("$.path").value("/api/V1/link/edit/refresh"));
-    }
 
     /**
      * Test case for the {@link LinkController#getInfoByShortLink(String)} method.

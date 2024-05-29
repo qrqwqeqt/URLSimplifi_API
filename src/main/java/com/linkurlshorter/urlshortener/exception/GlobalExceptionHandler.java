@@ -2,7 +2,6 @@ package com.linkurlshorter.urlshortener.exception;
 
 import com.linkurlshorter.urlshortener.auth.exception.EmailAlreadyTakenException;
 import com.linkurlshorter.urlshortener.auth.exception.WrongEmailOrPasswordException;
-import com.linkurlshorter.urlshortener.link.exception.DeletedLinkException;
 import com.linkurlshorter.urlshortener.link.exception.ForbiddenException;
 import com.linkurlshorter.urlshortener.link.exception.InactiveLinkException;
 import com.linkurlshorter.urlshortener.link.exception.InternalServerLinkException;
@@ -48,8 +47,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
-    @ExceptionHandler({EmailAlreadyTakenException.class, LinkStatusException.class,
-            DeletedLinkException.class, InactiveLinkException.class})
+    @ExceptionHandler({EmailAlreadyTakenException.class, LinkStatusException.class, InactiveLinkException.class})
     public ResponseEntity<ErrorResponse> handleBadRequestExceptions(
             RuntimeException ex, HttpServletRequest request) {
         ErrorResponse errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST,

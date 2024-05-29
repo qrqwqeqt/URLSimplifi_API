@@ -11,6 +11,5 @@ package com.linkurlshorter.urlshortener.link.model;
  */
 public enum LinkStatus {
     ACTIVE,
-    INACTIVE,
-    DELETED
+    INACTIVE
 }
