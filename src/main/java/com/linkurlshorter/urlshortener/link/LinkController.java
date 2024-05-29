@@ -32,7 +32,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Controller for Link-related operations such as create, delete, update and get info + statistics
@@ -250,7 +249,7 @@ public class LinkController {
         List<LinkInfoDto> links = linkService.findAllActive()
                 .stream()
                 .map(linkDtoMapper::mapLinkToDto)
-                .collect(Collectors.toList());
+                .toList();
         return ResponseEntity.ok(new LinkInfoResponse(links, "ok"));
     }
 
