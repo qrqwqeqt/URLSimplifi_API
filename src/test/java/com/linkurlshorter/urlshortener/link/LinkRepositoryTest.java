@@ -49,7 +49,7 @@ class LinkRepositoryTest {
                         .role(UserRole.USER)
                         .build())
                 .createdTime(LocalDateTime.of(2024, 4, 13, 10, 0))
-                .expirationTime(LocalDateTime.of(2024, 5, 16, 8, 0))
+                .expirationTime(LocalDateTime.of(2025, 5, 16, 8, 0))
                 .statistics(100)
                 .status(LinkStatus.ACTIVE)
                 .build();
