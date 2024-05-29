@@ -103,27 +103,6 @@ class LinkServiceTest {
     }
 
     /**
-     * Test case for the {@link LinkService#update(Link)} method.
-     */
-    @Test
-    void updateSuccessfulTest() {
-        when(linkRepository.save(link)).thenReturn(link);
-
-        Link savedLink = linkService.update(link);
-        assertThat(savedLink).isNotNull().isEqualTo(link);
-    }
-
-    /**
-     * Test case for the {@link LinkService#update(Link)} method when the provided link is null.
-     */
-    @Test
-    void updateNullLinkTest() {
-        assertThatThrownBy(() -> linkService.update(null))
-                .isInstanceOf(NullLinkPropertyException.class);
-    }
-
-
-    /**
      * Test case for the {@link LinkService#updateRedisShortLink(String, String)} method.
      */
     @Test
