@@ -230,6 +230,10 @@ public class LinkService {
         linkRepository.delete(link);
     }
 
+    public List<Link> findAllActive() {
+        return linkRepository.findAllActive();
+    }
+
     /**
      * Searches for a unique existing link by a short link and returns true if such link exists, false otherwise
      *
