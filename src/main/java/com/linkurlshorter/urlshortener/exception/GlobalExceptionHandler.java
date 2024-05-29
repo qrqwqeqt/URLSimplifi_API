@@ -1,6 +1,7 @@
 package com.linkurlshorter.urlshortener.exception;
 
 import com.linkurlshorter.urlshortener.auth.exception.EmailAlreadyTakenException;
+import com.linkurlshorter.urlshortener.auth.exception.WrongEmailOrPasswordException;
 import com.linkurlshorter.urlshortener.link.exception.DeletedLinkException;
 import com.linkurlshorter.urlshortener.link.exception.ForbiddenException;
 import com.linkurlshorter.urlshortener.link.exception.InactiveLinkException;
@@ -57,7 +58,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({NoSuchEmailFoundException.class, NoUserFoundByEmailException.class,
-            NoUserFoundByIdException.class, NoLinkFoundByShortLinkException.class})
+            NoUserFoundByIdException.class, NoLinkFoundByShortLinkException.class, WrongEmailOrPasswordException.class})
     public ResponseEntity<ErrorResponse> handleNotFoundExceptions(
             RuntimeException ex, HttpServletRequest request) {
         ErrorResponse errorResponse = buildErrorResponse(HttpStatus.NOT_FOUND,
