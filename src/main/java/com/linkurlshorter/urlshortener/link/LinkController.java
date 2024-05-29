@@ -3,7 +3,6 @@ package com.linkurlshorter.urlshortener.link;
 import com.linkurlshorter.urlshortener.link.dto.LinkInfoDto;
 import com.linkurlshorter.urlshortener.link.dto.LinkInfoDtoMapper;
 import com.linkurlshorter.urlshortener.link.dto.LinkStatisticsDto;
-import com.linkurlshorter.urlshortener.link.exception.DeletedLinkException;
 import com.linkurlshorter.urlshortener.link.exception.ForbiddenException;
 import com.linkurlshorter.urlshortener.link.exception.InternalServerLinkException;
 import com.linkurlshorter.urlshortener.link.exception.LinkStatusException;
@@ -150,7 +149,6 @@ public class LinkController {
      * @param shortLink the String shortLink of the link to refresh
      * @return a ResponseEntity containing the response object indicating the success of the refresh operation
      * @throws ForbiddenException   if the authenticated user does not have rights to refresh the link
-     * @throws DeletedLinkException if the link is already deleted
      */
     @PostMapping("/edit/refresh")
     @SecurityRequirement(name = "JWT")
@@ -158,9 +156,6 @@ public class LinkController {
     public ResponseEntity<LinkModifyingResponse> refreshLink(@RequestParam String shortLink) {
         if (doesUserHaveRightsForLinkByShortLink(shortLink)) {
             Link link = linkService.findByShortLink(shortLink);
-            if (link.getStatus() == LinkStatus.DELETED) {
-                throw new DeletedLinkException();
-            }
             link.setExpirationTime(LocalDateTime.now().plusDays(SHORT_LINK_LIFETIME_IN_DAYS));
             link.setStatus(LinkStatus.ACTIVE);
             linkService.updateRedisLink(shortLink, link);
