@@ -13,7 +13,6 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,6 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class LinkService {
-
     private final LinkRepository linkRepository;
     private final JedisPool jedisPool;
     private final ObjectMapper mapper;
