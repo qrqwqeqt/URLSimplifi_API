@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EditLinkContentRequest {
-    private String oldShortLink;
     @NotNull
     @UrlNewShortValidator
     private String newShortLink;

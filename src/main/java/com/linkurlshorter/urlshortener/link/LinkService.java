@@ -94,19 +94,6 @@ public class LinkService {
         return linkRepository.save(link);
     }
 
-    /**
-     * Updates a link entity.
-     *
-     * @param link The link entity to update.
-     * @return The updated link entity.
-     * @throws NullLinkPropertyException If the 'link' parameter is null.
-     */
-    public Link update(Link link) {
-        if (Objects.isNull(link)) {
-            throw new NullLinkPropertyException();
-        }
-        return linkRepository.save(link);
-    }
 
     /**
      * Updates the short link stored in Redis with a new short link.
