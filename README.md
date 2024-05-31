@@ -39,15 +39,19 @@ to start the front-end part.
 
 1. [Download JDK 17+](https://www.oracle.com/cis/java/technologies/downloads/)
 2. [Download Gradle](https://gradle.org/install/)
-3. While in the root folder, enter the command to build the Docker image
+3. While in the root directory, build a bootJar using command
+```
+./gradlew bootJar
+```
+4. While in the root folder, enter the command to build the Docker image
 ```
 docker build -t url-shortener .
 ```
-4. Move to the docker folder by entering the command
+5. Move to the docker folder by entering the command
 ```
 cd docker
 ```
-5. While in the docker folder, enter the command to run Docker containers with Docker Compose
+6. While in the docker folder, enter the command to run Docker containers with Docker Compose
 ```
 docker-compose up
 ```
@@ -56,5 +60,9 @@ After executing these commands, your URL Shortener app should be launched and av
 ### [Swagger](http://localhost:8080/url-shortener/swagger-ui/index.html#/)
 
 ### Run tests
+> **NOTE:** postgres and redis containers must be running
 
-- Run ```./gradlew test``` to run tests
+-Run tests from the root directory of the repository using the command:
+```
+./gradlew test
+```
