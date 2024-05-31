@@ -1,6 +1,6 @@
 # Link Shortener
 
-## [Link to the design document](https://docs.google.com/document/d/1tOXQjWUA8VQA8GhuJndz-iTPrESmXg4r3Ipj1Rp2qVg/edit?usp=sharing)
+## [Design document](https://docs.google.com/document/d/1iMQEvyzFKvNWu4vGWAc10u-2C6-AExHxE7dNiprqAkU/edit#heading=h.k57aj13un2t)
 
 ### Team:
 
