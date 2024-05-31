@@ -32,6 +32,8 @@ npm run dev
 ``` 
 to start the front-end part.
 
+![image](https://github.com/qrqwqeqt/URLSimplifyAPI/assets/114734522/3cb5b6f3-dcf6-488e-a7c8-62e61091e2e1)
+
 ### Back-end
 #### You need to have Docker and Docker compose installed on your computer 
 
@@ -51,7 +53,7 @@ docker-compose up
 ```
 After executing these commands, your URL Shortener app should be launched and available for use.
 
-#### [Swagger](http://localhost:8080/url-shortener/swagger-ui/index.html#/)
+### [Swagger](http://localhost:8080/url-shortener/swagger-ui/index.html#/)
 
 ### Run tests
 
